@@ -1,0 +1,21 @@
+{
+  "name": "authbackend",
+  "version": "1.0.0",
+  "description": "authentification with JWT",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "authentification",
+    "JWT",
+    "backend"
+  ],
+  "author": "Ivan German",
+  "license": "ISC",
+  "dependencies": {
+    "dotenv": "^16.0.1",
+    "express": "^4.18.1",
+    "path": "^0.12.7"
+  }
+}
