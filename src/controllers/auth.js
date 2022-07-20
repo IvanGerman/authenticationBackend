@@ -30,13 +30,6 @@ module.exports.login = async function(req, res) {
       message: 'user not found!'
     })
   }
-  // res.status(200)
-  //   .json({
-  //     'login': {
-  //       email: req.body.email,
-  //       password: req.body.password
-  //     }
-  //   });
 };
 
 module.exports.register = async function(req, res) {
