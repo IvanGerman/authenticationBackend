@@ -38,7 +38,7 @@ module.exports.register = async function(req, res) {
   const isEmailOccupied = await User.findOne({email: req.body.email});
   if (isEmailOccupied) {
     res.status(409).json({
-      message: 'this email is already occupied!'
+      message: 'user with this email already exists!'
     })
   } else { //create new user
     //first we encode his password
@@ -58,7 +58,5 @@ module.exports.register = async function(req, res) {
         message: 'error occured'
       })
     }
-  }
-
-  
+  } 
 }
