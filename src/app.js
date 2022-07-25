@@ -32,16 +32,4 @@ app.use('/api/auth', authRouter);
 app.use('/api', booksRouter);
 
 
-app.get('/', (req, res) => {
-  res.status(200);
-  //res.send('method send working');
-  res.json( { 'message': 'OK_201'} );
-});
-
-app.post('/', (req, res) => { console.log(req.body);
-  res.status(200);
-  //res.send('method send working');
-  res.json( req.body );
-});
-
 module.exports = app;

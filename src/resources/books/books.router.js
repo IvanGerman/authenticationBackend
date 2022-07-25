@@ -9,4 +9,7 @@ router.get('/books', passport.authenticate('jwt', { session: false }), controlle
 
 router.post('/books', passport.authenticate('jwt', { session: false }), controller.postBook);
 
+router.delete('/books/:id',  controller.deleteBook);
+
+
 module.exports = router; 

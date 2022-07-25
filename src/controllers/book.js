@@ -35,4 +35,24 @@ module.exports.postBook = async function(req, res) {
       })
     }
   }
-}
+};
+
+module.exports.deleteBook = async function(req, res) {
+  
+  try {
+    // check is this book in DB 
+  const isBookInDB = await Book.findOne({_id: req.params.id});
+  if (!isBookInDB) {
+    res.status(404).json({
+      message: 'this book is not in DB!'
+    })
+  } else { //delete new book
+    await Book.deleteOne({ _id: req.params.id });
+    res.status(200).json(`${isBookInDB.name} is deleted`);
+  }
+  } catch(err) {
+    res.status(404).json({
+      message: 'error occured!'
+    })
+  }     
+};
