@@ -11,5 +11,8 @@ router.post('/books', passport.authenticate('jwt', { session: false }), controll
 
 router.delete('/books/:id',  controller.deleteBook);
 
+router.put('/books/:id',  controller.updateBook);
+
+
 
 module.exports = router; 

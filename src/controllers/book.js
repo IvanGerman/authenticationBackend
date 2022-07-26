@@ -46,7 +46,7 @@ module.exports.deleteBook = async function(req, res) {
     res.status(404).json({
       message: 'this book is not in DB!'
     })
-  } else { //delete new book
+  } else { //delete book
     await Book.deleteOne({ _id: req.params.id });
     res.status(200).json(`${isBookInDB.name} is deleted`);
   }
@@ -56,3 +56,17 @@ module.exports.deleteBook = async function(req, res) {
     })
   }     
 };
+
+
+module.exports.updateBook = async function(req, res) { console.log('here------');
+
+    
+  try {
+     const result = await Book.findOneAndUpdate({ _id: req.params.id }, { name: req.body.name }, { new: true });
+     res.status(200).json(`Book has been updated, new book name is: ${result.name} `);
+  } catch {
+      res.status(400).json({
+      message: 'error occured'
+      })
+    }
+  };
