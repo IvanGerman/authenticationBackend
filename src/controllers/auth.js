@@ -2,10 +2,10 @@ const bcryptjs = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 
 const User = require('../models/User');
-const { JWT_SECRET_KEY } = require('../common/config');
+const { JWT_SECRET_KEY, JWT_REFRESH_SECRET_KEY } = require('../common/config');
 
 
-module.exports.login = async function(req, res) {
+module.exports.login = async function(req, res) { 
 
   // check does user already exist
   const isUserThere = await User.findOne({email: req.body.email});
@@ -17,8 +17,14 @@ module.exports.login = async function(req, res) {
         email: isUserThere.email,
         userId: isUserThere._id
       }, JWT_SECRET_KEY, {expiresIn: 60 * 60});
+      // here we create refresh token, which could be stored in DB or localstorage
+      const refreshToken = jwt.sign({
+        email: isUserThere.email,
+        userId: isUserThere._id
+      }, JWT_REFRESH_SECRET_KEY , {expiresIn: 60 * 60 * 4});
       res.status(200).json({
-        token: `Bearer ${token}`
+        token: `Bearer ${token}`,
+        refreshToken: `Bearer ${refreshToken}`
       })
     } else {
       res.status(401).json({
