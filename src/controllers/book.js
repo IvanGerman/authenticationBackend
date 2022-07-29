@@ -1,7 +1,7 @@
 const Book = require('../models/Book');
   
 
-module.exports.getBooks = async function(req, res) {
+module.exports.getBooks = async function(req, res) { console.log('getBooks');
 
   try {
     const allBooks = await Book.find();

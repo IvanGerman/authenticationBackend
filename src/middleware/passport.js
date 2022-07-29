@@ -14,17 +14,25 @@ const options = {
   secretOrKey: JWT_SECRET_KEY
 };
 
-module.exports = passport2 = () => {
+module.exports = passport2 = () => { 
   passport.use(
-    new JwtStrategy(options, async (jwt_payload, done) => {
-      try {
+    new JwtStrategy(options, async (jwt_payload, done) => { 
+      try {  
+        // console.log('passport2 try jwt_payload',jwt_payload);
+        // console.log('Date.now()--',Date.now());
+        // if ( (Date.now() / 1000) > jwt_payload.exp) {
+        // console.log('Token is expired');
+        // }
+        // if ( (Date.now() / 1000) < jwt_payload.exp) {
+        //   console.log('Token is alive');
+        //   }
         const user = await User.findById(jwt_payload.userId).select('email id');
-        if (user) {
+        if (user) {  console.log('passport2 user');
           return done(null, user);
-        } else {
+        } else {  console.log('passport2 !user');
           return done(null, false);
         }
-      } catch(err) {
+      } catch(err) {  
         console.log(err);
       }
     })

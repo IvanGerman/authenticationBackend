@@ -12,7 +12,6 @@ mongoose.connect(MONGO_CONNECTION_STRING)
   .catch( (error) => { console.log(error);})
 
 
-
 const app = express();
 
 //passportjs allows that only authenticated users can make requests to our endpoints
@@ -21,6 +20,8 @@ require('./middleware/passport')(passport);
 
 const authRouter = require('./resources/authentication/auth.router');
 const booksRouter = require('./resources/books/books.router');
+const tokenRouter = require('./resources/token/token.router');
+
 
 app.use(cors());
 app.use(morgan('dev'));
@@ -30,6 +31,7 @@ app.use(express.urlencoded());
 
 app.use('/api/auth', authRouter);
 app.use('/api', booksRouter);
+app.use('/api', tokenRouter);
 
 
 module.exports = app;

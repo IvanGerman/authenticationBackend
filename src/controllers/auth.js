@@ -16,12 +16,14 @@ module.exports.login = async function(req, res) {
       const token = jwt.sign({
         email: isUserThere.email,
         userId: isUserThere._id
-      }, JWT_SECRET_KEY, {expiresIn: 60 * 60});
+      }, JWT_SECRET_KEY, {expiresIn: 10});
       // here we create refresh token, which could be stored in DB or localstorage
       const refreshToken = jwt.sign({
         email: isUserThere.email,
         userId: isUserThere._id
       }, JWT_REFRESH_SECRET_KEY , {expiresIn: 60 * 60 * 4});
+      // here we store our refresh token in DB for later authentication by api/token requests
+      //-----
       res.status(200).json({
         token: `Bearer ${token}`,
         refreshToken: `Bearer ${refreshToken}`

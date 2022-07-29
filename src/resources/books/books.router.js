@@ -4,6 +4,7 @@ const controller = require('../../controllers/book');
 
 const router = express.Router();
 
+
 //the callback function under can be replaced by controller
 router.get('/books', passport.authenticate('jwt', { session: false }), controller.getBooks);
 
