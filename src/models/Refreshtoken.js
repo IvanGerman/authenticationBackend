@@ -12,4 +12,4 @@ const RefreshtokenSchema = new Schema(
   }
 );
 
-module.exports = mongoose.model('token', RefreshtokenSchema);
+module.exports = mongoose.model('tokens', RefreshtokenSchema);

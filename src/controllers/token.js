@@ -1,3 +1,5 @@
+const jwt = require('jsonwebtoken');
+
 const RefreshToken = require('../models/RefreshToken');
 const { JWT_SECRET_KEY, JWT_REFRESH_SECRET_KEY } = require('../common/config');
 
@@ -22,6 +24,7 @@ const { JWT_SECRET_KEY, JWT_REFRESH_SECRET_KEY } = require('../common/config');
 module.exports.postRefreshToken = async function(req, res) { console.log('in postRefreshToken');
 
   const refreshToken = req.header("Authorization");
+  console.log('refreshToken from header--', refreshToken);
 
   // If token is not provided, send error message
   if (!refreshToken) {
@@ -42,21 +45,24 @@ module.exports.postRefreshToken = async function(req, res) { console.log('in pos
       ],
     });
   };
-  
-  try {
-    const user = await JWT.verify(
+
+  try { 
+    
+    const user = await jwt.verify(
       refreshToken,
       JWT_REFRESH_SECRET_KEY
     );
-    // user = { email: 'jame@gmail.com', iat: 1633586290, exp: 1633586350 }
+    
     const { email, userId } = user;
-    const accessToken = await JWT.sign(
+
+    const accessToken = await jwt.sign(
       { email, userId },
       JWT_SECRET_KEY,
       { expiresIn: "10s" }
     );
+    
     res.json({ accessToken });
-  } catch (error) {
+  } catch (error) {   
     res.status(403).json({
       errors: [
         {
@@ -66,3 +72,28 @@ module.exports.postRefreshToken = async function(req, res) { console.log('in pos
     });
   }
 };
+
+module.exports.saveRefreshTokenToDB = async function(refreshToken) {
+  const refreshToken2 = new RefreshToken({
+    'refreshToken': refreshToken
+  });
+
+  try {
+    await refreshToken2.save();
+    console.log('refreshToken added to DB successfully');
+  } catch(err) {
+    console.log('error, could not add RT to DB');
+  }
+}
+
+
+module.exports.deleteAllRefreshTokens = async function() {
+  try {
+    await RefreshToken.deleteMany();
+    return 'RTdeleted';
+  } catch(err) {
+    console.log('could not delete refreshTokens from DB');
+  }
+} 
+
+

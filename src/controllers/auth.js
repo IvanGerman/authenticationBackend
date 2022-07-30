@@ -3,6 +3,7 @@ const jwt = require('jsonwebtoken');
 
 const User = require('../models/User');
 const { JWT_SECRET_KEY, JWT_REFRESH_SECRET_KEY } = require('../common/config');
+const { saveRefreshTokenToDB, deleteAllRefreshTokens } = require('./token');
 
 
 module.exports.login = async function(req, res) { 
@@ -21,13 +22,25 @@ module.exports.login = async function(req, res) {
       const refreshToken = jwt.sign({
         email: isUserThere.email,
         userId: isUserThere._id
-      }, JWT_REFRESH_SECRET_KEY , {expiresIn: 60 * 60 * 4});
+      }, JWT_REFRESH_SECRET_KEY , {expiresIn: 60 * 60});
+
+      console.log('refreshToken--',refreshToken, typeof(refreshToken));
+      const user = await jwt.verify(
+        refreshToken,
+        JWT_REFRESH_SECRET_KEY
+      ); console.log('user----',user);
+
+
       // here we store our refresh token in DB for later authentication by api/token requests
-      //-----
+      // bevor we do it, we clear our token collection in DB
+      const result = await deleteAllRefreshTokens();
+      if ( result === 'RTdeleted') {
+        saveRefreshTokenToDB(refreshToken);
       res.status(200).json({
         token: `Bearer ${token}`,
-        refreshToken: `Bearer ${refreshToken}`
+        refreshToken: refreshToken
       })
+      }
     } else {
       res.status(401).json({
         message: 'wrong password!'
