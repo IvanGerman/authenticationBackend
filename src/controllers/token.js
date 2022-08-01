@@ -4,34 +4,15 @@ const RefreshToken = require('../models/RefreshToken');
 const { JWT_SECRET_KEY, JWT_REFRESH_SECRET_KEY } = require('../common/config');
 
 
-// module.exports.getRefreshToken = async function(refreshToken) { console.log('getRefreshToken');
-
-//   try {
-//     const isRTokenInDB = await RefreshToken.findOne({refreshToken: refreshToken});
-//     if (isRTokenInDB) {
-//       console.log('all good, this RT is in DB');
-//       return
-//     } else {
-//       console.log('no such RT in DB');
-//     }
-//   } catch(err) {
-//     res.status(404).json({
-//       message: 'an error occured!'
-//     })
-//   }     
-// };
-
-module.exports.postRefreshToken = async function(req, res) { console.log('in postRefreshToken');
+module.exports.postRefreshToken = async function(req, res) { 
 
   const refreshToken = req.header("Authorization");
   console.log('refreshToken from header--', refreshToken);
 
   // If token is not provided, send error message
   if (!refreshToken) {
-    res.status(401).json({
-      errors: [
-        { message: "Token not found", },
-      ],
+    res.status(403).json({
+      message: "Token not found"
     });
   };
 
@@ -40,9 +21,7 @@ module.exports.postRefreshToken = async function(req, res) { console.log('in pos
 
   if (!isRTokenInDB) {
     res.status(403).json({
-      errors: [
-        { message: "Invalid refresh token", },
-      ],
+      message: "Invalid refresh token"   
     });
   };
 
@@ -64,11 +43,7 @@ module.exports.postRefreshToken = async function(req, res) { console.log('in pos
     res.json({ accessToken });
   } catch (error) {   
     res.status(403).json({
-      errors: [
-        {
-          message: "Invalid token",
-        },
-      ],
+      message: "Invalid token"
     });
   }
 };
