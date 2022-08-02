@@ -10,9 +10,9 @@ router.get('/books', passport.authenticate('jwt', { session: false }), controlle
 
 router.post('/books', passport.authenticate('jwt', { session: false }), controller.postBook);
 
-router.delete('/books/:id',  controller.deleteBook);
+router.delete('/books/:id', passport.authenticate('jwt', { session: false }), controller.deleteBook);
 
-router.put('/books/:id',  controller.updateBook);
+router.put('/books/:id', passport.authenticate('jwt', { session: false }), controller.updateBook);
 
 
 
