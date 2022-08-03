@@ -22,7 +22,7 @@ module.exports.login = async function(req, res) {
       const refreshToken = jwt.sign({
         email: isUserThere.email,
         userId: isUserThere._id
-      }, JWT_REFRESH_SECRET_KEY , {expiresIn: 60 * 60});
+      }, JWT_REFRESH_SECRET_KEY , {expiresIn: 35});
 
       console.log('refreshToken--',refreshToken, typeof(refreshToken));
       const user = await jwt.verify(
