@@ -1,6 +1,6 @@
 const jwt = require('jsonwebtoken');
 
-const RefreshToken = require('../models/RefreshToken');
+const RefreshToken = require('../models/Refreshtoken');
 const { JWT_SECRET_KEY, JWT_REFRESH_SECRET_KEY } = require('../common/config');
 
 
