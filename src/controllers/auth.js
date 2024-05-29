@@ -17,12 +17,12 @@ module.exports.login = async function(req, res) {
       const token = jwt.sign({
         email: isUserThere.email,
         userId: isUserThere._id
-      }, JWT_SECRET_KEY, {expiresIn: 10});
+      }, JWT_SECRET_KEY, {expiresIn: "7d"});
       // here we create refresh token, which could be stored in DB or localstorage
       const refreshToken = jwt.sign({
         email: isUserThere.email,
         userId: isUserThere._id
-      }, JWT_REFRESH_SECRET_KEY , {expiresIn: 35});
+      }, JWT_REFRESH_SECRET_KEY , {expiresIn: "14d"});
 
       console.log('refreshToken--',refreshToken, typeof(refreshToken));
       const user = await jwt.verify(
